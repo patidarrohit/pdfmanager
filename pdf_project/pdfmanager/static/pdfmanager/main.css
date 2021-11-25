@@ -44,4 +44,5 @@
   .dropdown-toggle {
     outline: 0;
   }
-  
+
+  .nav > li > a:hover { color: #9c2b2b !important; }
