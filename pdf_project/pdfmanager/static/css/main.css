@@ -1,3 +1,27 @@
+body::before {
+  display: block;
+  content: '';
+  height: 160px;
+}
+
+.card {
+  width: 25rem;
+  height: 17rem;
+}
+
+body {
+  background-color: rgb(122, 219, 228);
+}
+
+#card-merge{
+  width: 70rem;
+  height: auto;
+}
+
+.input-group{
+  width: 50%;
+
+}
 .bd-placeholder-img {
     font-size: 1.125rem;
     text-anchor: middle;

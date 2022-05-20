@@ -1,27 +1,57 @@
+{% load static %}
 <!--Nav Bar-->
-<header class="p-3 bg-dark text-white">
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark py-3 fixed-top">
     <div class="container">
-      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      <a href="#" class="pull-left"><img src="{% static 'images/square_logo.png' %} " style="width:60px"></a> 
+      <a href="#" class="navbar-brand px-3">PDF Manager</a>
+      <!-- <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
           <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
-        </a>
+        </a> -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navmenu">
+          <ul class="navbar-nav ms-auto px-5">
+            <li class="nav-item">
+              <a href="{% url 'home' %}" {% if '/' == request.path %} class="nav-link px-2 text-white" {% else %} class="nav-link" {% endif %}>Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="#Services" class="nav-link">Services</a>
+            </li>
+            <li class="nav-item">
+              <a href="#FAQs" class="nav-link">FAQs</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'about' %}" {% if '/about/' == request.path %} class="nav-link px-2 text-white" {% else %} class="nav-link" {% endif %}>About</a>
+            </li>
+            <!-- <li class="nav-item">
+              <div class="nav-item">
+                <button type="button" class="btn btn-outline-light me-2">Login</button>
+                <button type="button" class="btn btn-warning">Sign-up</button>
+              </div>
+            </li> -->
+          </ul>
 
+        <!-- </div>
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li><a href="{% url 'home' %}" {% if '/' == request.path %} class="nav-link px-2 text-secondary" {% else %} class="nav-link px-2 text-white" {% endif %}>Home</a></li>
           <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-         <!-- <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li> -->
+          <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li> 
           <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
           <li><a href="{% url 'about' %}" {% if 'about' in request.path %} class="nav-link px-2 text-secondary" {% else %} class="nav-link px-2 text-white" {% endif %}>About</a></li>
         </ul>
 
         <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
           <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
-        </form>
+        </form>  -->
 
-        <div class="text-end">
+        <div class="nav-item">
           <button type="button" class="btn btn-outline-light me-2">Login</button>
           <button type="button" class="btn btn-warning">Sign-up</button>
         </div>
       </div>
     </div>
-  </header>
+  </div>
+</nav>
