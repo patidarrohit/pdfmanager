@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from pdf_utilities.pdfMerge import pdf_merge as pm
+from datetime import datetime
 
 
 def home(request):
@@ -10,10 +12,17 @@ def about(request):
 
 
 def pdf_merge(request):
+    op_file_name = 'pdf_merge_' + str(int(round(datetime.now().timestamp())))
     if request.method == 'POST':
-        print(request.POST)
-        print(request.FILES)
-        print('Yes')
+        my_files = request.FILES
+        # with open('/Users/rohitmac/test.pdf', 'wb+') as destination:
+        #     for chunk in my_file.chunks():
+        #         destination.write(chunk)
+        file_list = []
+        for k, v in my_files.items():
+            file_list.append(v)
+        pm(file_list, op_file_name)
+
     return render(request, "pdfmanager/pdfmerge.html")
 
 
