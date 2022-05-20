@@ -1,30 +1,46 @@
+// Function to add input group element for pdf merge page
 function createNewInputGrp() {
-    // First create a DIV element.
-	var txtNewInputBox = document.createElement('div');
-    var new_chq_no = parseInt($('#total_chq').val());
+  // First create a DIV element.
+  var txtNewInputBox = document.createElement("div");
+  var new_chq_no = parseInt($("#total_chq").val());
 
-    //check if number of files to add is not more than 10.
-    if (new_chq_no <= 10) {
+  //check if number of files to add is not more than 10.
+  if (new_chq_no <= 10) {
+    // Then add the content (a new input box) of the element.
+    //txtNewInputBox.innerHTML = '<div id="ig-new" class="input-group mx-auto"> <input type="file" class="form-control my-2" id="inputGroupFile" name="inputGroup" accept=".pdf"> <input id="ig-del" type="button" class="btn btn-dark" value="x" onclick="removeInputGrp();"/> </div>';
+    txtNewInputBox.innerHTML = '<div id="ig-new" class="input-group mx-auto"> <input type="file" class="form-control my-2" id="inputGroupFile" name="inputGroup' + new_chq_no + ' " accept=".pdf"> <input id="ig-del" type="button" class="btn btn-dark" value="x" onclick="removeInputGrp();"/> </div>';
 
-      // Then add the content (a new input box) of the element.
-      //txtNewInputBox.innerHTML = '<div id="ig-new" class="input-group mx-auto"> <input type="file" class="form-control my-2" id="inputGroupFile" name="inputGroup" accept=".pdf"> <input id="ig-del" type="button" class="btn btn-dark" value="x" onclick="removeInputGrp();"/> </div>';
-      txtNewInputBox.innerHTML =
-        '<div id="ig-new" class="input-group mx-auto"> <input type="file" class="form-control my-2" id="inputGroupFile" name="inputGroup' + new_chq_no + ' " accept=".pdf"> <input id="ig-del" type="button" class="btn btn-dark" value="x" onclick="removeInputGrp();"/> </div>';
-      
-        new_chq_no += 1;
-      $("#total_chq").val(new_chq_no);
+    new_chq_no += 1;
+    $("#total_chq").val(new_chq_no);
 
-      // Finally put it where it is supposed to appear.
-      document.getElementById("ig").append(txtNewInputBox);
-    } else {
-      alert("You can maximum add 10 files.");
-    }
+    // Finally put it where it is supposed to appear.
+    document.getElementById("ig").append(txtNewInputBox);
+
+    //jQuery function to send alert on size if file is more than 10 MB.
+    $("input[type='file']").on("change", function () {
+      if (this.files[0].size > 90000) {
+        alert("Please upload file less than 10MB. Thanks!!");
+        $(this).val(null);
+      }
+    });
+  } else {
+    alert("You can maximum add 10 files.");
+  }
 }
 
 
-
-
+// Function to remove input group element for pdf merge page
 function removeInputGrp() {
     const ig = document.getElementById('ig-new');
   ig.remove();
 }
+
+
+// jQuery function to send alert on size if file is more than 10 MB.
+$("input[type='file']").on("change", function () {
+    if(this.files[0].size > 90000) {
+      alert("Please upload file less than 10MB. Thanks!!");
+      $(this).val(null);
+    }
+   });
+
