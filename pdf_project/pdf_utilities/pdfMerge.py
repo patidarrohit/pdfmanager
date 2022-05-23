@@ -14,6 +14,7 @@ def pdf_merge(pdfs, output):
     op_file_name = op_dir + '/' + output + '.pdf'
     with open(op_file_name, 'wb') as f:
         pdf_merger.write(f)
+    return op_dir, output+'.pdf'
 
 
 if __name__ == "__main__":
