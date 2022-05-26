@@ -18,7 +18,7 @@ function createNewInputGrp() {
 
     //jQuery function to send alert on size if file is more than 10 MB.
     $("input[type='file']").on("change", function () {
-      if (this.files[0].size > 90000) {
+      if (this.files[0].size > 1048576) {
         alert("Please upload file less than 10MB. Thanks!!");
         $(this).val(null);
       }
@@ -38,9 +38,29 @@ function removeInputGrp() {
 
 // jQuery function to send alert on size if file is more than 10 MB.
 $("input[type='file']").on("change", function () {
-    if(this.files[0].size > 90000) {
+    if(this.files[0].size > 1048576) {
       alert("Please upload file less than 10MB. Thanks!!");
       $(this).val(null);
     }
    });
 
+
+// Function to check if any checkbox is checked on pdf rotate show form.
+function check_checkbox() 
+{  
+  if($("input[type='checkbox'").is(':checked')) {
+    return true;
+  } else {
+    alert("Please select atleast one item from checklist.");
+    return false;
+  }
+}
+
+// Select all checkboxes on pdf rotate page.
+
+function selectAll(source) {
+    checkboxes = document.getElementsByName('check');
+    for(let checkbox of checkboxes){
+      checkbox.checked = source.checked;
+    }
+  }

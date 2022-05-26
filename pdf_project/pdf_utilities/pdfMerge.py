@@ -1,4 +1,5 @@
 import PyPDF2 as p
+import os
 from datetime import datetime
 
 
@@ -10,7 +11,8 @@ def pdf_merge(pdfs, output):
     for f in pdfs:
         #file = os.path.join('/Users/rohitmac/Downloads', f)
         pdf_merger.append(f)
-    op_dir = '/Users/rohitmac/MyMAC/Projects/repo/pdfproject/pdf_project/output/pdfmerge'
+    op_dir = '/Users/rohitmac/MyMAC/Projects/repo/pdfproject/pdf_project/media/temp/pdfmerge'
+    os.system(f'mkdir -p {op_dir}')
     op_file_name = op_dir + '/' + output + '.pdf'
     with open(op_file_name, 'wb') as f:
         pdf_merger.write(f)
