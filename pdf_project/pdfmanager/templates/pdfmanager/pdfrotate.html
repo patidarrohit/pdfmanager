@@ -17,10 +17,10 @@
             <form name="rotate-form" action="{% url 'pdfrotateshow' %}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="input-group mx-auto">
-                    <input type="file" class="form-control my-2" id="inputGroup1" name="inputGroup1" accept=".pdf"> 
+                    <input type="file" class="form-control my-2" id="inputGroupFile" name="inputGroup1" accept=".pdf"> 
                 </div>
 
-                <input type="submit" class="btn btn-warning align-self-end my-3" value="Next"/>
+                <input type="submit" class="btn btn-warning align-self-end my-3" id="merge-sub" value="Next"/>
             </form>
             </div>
           </div>
