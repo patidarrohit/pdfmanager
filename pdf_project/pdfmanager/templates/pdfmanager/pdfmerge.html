@@ -14,19 +14,19 @@
               <p class="card-text">
                 Please upload 2 or more PDF files which need to be merged.
               </p>
-            <form name="merge-form" action="{% url 'pdfmerge' %}" method="POST" enctype="multipart/form-data">
+            <form name="merge-form" action="{% url 'pdfmerge' %}" method="POST" enctype="multipart/form-data" >
                 {% csrf_token %}
                 <div class="input-group mx-auto">
-                    <input type="file" class="form-control my-2" id="inputGroup1" name="inputGroup1" accept=".pdf"> 
+                    <input type="file" class="form-control my-2" id="inputGroupFile" name="inputGroup1" accept=".pdf"> 
                 </div>
                 <div class="input-group mx-auto">
-                    <input type="file" class="form-control my-2" id="inputGroup2" name="inputGroup2" accept=".pdf"> 
+                    <input type="file" class="form-control my-2" id="inputGroupFile" name="inputGroup2" accept=".pdf"> 
                 </div>
                 
                 <div id="ig"></div>
                 <input type="hidden" value="3" id="total_chq">
                 <input type="button" class="btn btn-warning m-3"  value="Add Another File" onclick="createNewInputGrp();"/>
-                <input type="submit" class="btn btn-warning align-self-end" value="Merge"/>
+                <input type="submit" class="btn btn-warning align-self-end" value="Merge" id="merge-sub"/>
             </form>
             </div>
           </div>

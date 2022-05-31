@@ -6,12 +6,12 @@ from datetime import datetime
 src_dir = '/Users/rohitmac/Downloads'
 
 
-def pdf_merge(pdfs, output):
+def pdf_merge(pdfs, output, ts):
     pdf_merger = p.PdfFileMerger()
     for f in pdfs:
         #file = os.path.join('/Users/rohitmac/Downloads', f)
         pdf_merger.append(f)
-    op_dir = '/Users/rohitmac/MyMAC/Projects/repo/pdfproject/pdf_project/media/temp/pdfmerge'
+    op_dir = f'./media/temp/pdf_merge/{ts}'
     os.system(f'mkdir -p {op_dir}')
     op_file_name = op_dir + '/' + output + '.pdf'
     with open(op_file_name, 'wb') as f:

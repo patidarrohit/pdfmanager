@@ -51,13 +51,14 @@ def about(request):
 #     return render(request, "pdfmanager/pdfmerge.html")
 
 def pdf_merge(request):
-    op_file_name = 'pdf_merge_' + str(int(round(datetime.now().timestamp())))
+    ts = str(int(round(datetime.now().timestamp())))
+    op_file_name = 'pdf_merge_' + ts
     if request.method == 'POST':
         my_files = request.FILES
         file_list = []
         for k, v in my_files.items():
             file_list.append(v)
-        file_dir, file_name = pm(file_list, op_file_name)
+        file_dir, file_name = pm(file_list, op_file_name, ts)
         path = Path(file_dir + '/' + file_name)
         fs = FileSystemStorage()
         path = '/' + os.path.relpath(path, './media')

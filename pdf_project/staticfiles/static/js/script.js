@@ -47,13 +47,13 @@ $("input[type='file']").on("change", function () {
 
 // jQuery function to send alert if no file is selected for merge.
 // function file_check() {
-//     if ($('#inputGroupFile')[0].files.length === 0) {
-//         alert("No files are selected.")
-//         return false;
-//     } else{
-//         return true;
-//     }
-//   } 
+//   if ($('#inputGroupFile')[0].files.length === 0) {
+//       alert("No files are selected.")
+//       return false;
+//   } else{
+//       return true;
+//   }
+// } 
 
 
 // Function to check if any checkbox is checked on pdf rotate show form.
@@ -76,14 +76,14 @@ function selectAll(source) {
     }
   }
 
-
 $(document).ready(function() {
     $('#merge-sub').bind("click",function() 
     { 
         if( document.getElementById("inputGroupFile").files.length == 0 ){
-            alert("No files are selected. Please select atleast one file.");
-          return false;
-      } 
+          alert("No files are selected. Please select atleast one file.");
+          return false; 
+      }
+        
 
     }); 
 });
