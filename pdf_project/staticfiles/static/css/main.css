@@ -11,34 +11,6 @@ body::before {
   height: 18rem;
 }
 
-@media screen and (max-width: 400px) {
-  .card{
-    width: 18rem;
-    height: 15rem;
-  }
-}
-
-@media screen and (max-width: 850px) {
-  .card{
-    width: 17rem;
-    height: 14rem;
-  }
-}
-
-body {
-  background-color: rgb(122, 219, 228);
-}
-
-#card-merge{
-  width: 70rem;
-  height: auto;
-}
-
-.input-group{
-  width: 50%;
-  }
-
-
 .dropdown-menu li {
   position: relative;
   }
@@ -55,9 +27,50 @@ body {
   left: auto;
   }
 
-  .dropdown-menu > li:hover > .dropdown-submenu {
-  display: block;
+
+@media screen and (max-width: 400px) {
+  .card{
+    width: 18rem;
+    height: 15rem;
   }
+  .dropdown-menu .dropdown-submenu {
+    left: 80%;
+    top: -7px;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .card{
+    width: 17rem;
+    height: 14rem;
+  }
+  .dropdown-menu .dropdown-submenu {
+    left: 30%;
+    top: -7px;
+  }
+}
+
+@media screen and (min-width: 850px) {
+  .dropdown-menu > li:hover > .dropdown-submenu {
+    display: block;
+    }
+}
+
+
+body {
+  background-color: rgb(122, 219, 228);
+}
+
+#card-merge{
+  width: 70rem;
+  height: auto;
+}
+
+.input-group{
+  width: 50%;
+  }
+
+
 
 
 

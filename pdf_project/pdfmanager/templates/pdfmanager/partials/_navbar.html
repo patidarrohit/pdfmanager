@@ -17,7 +17,7 @@
             <li class="nav-item">
               <a href="{% url 'home' %}" {% if '/' == request.path %} class="nav-link text-white" {% else %} class="nav-link" {% endif %}>Home</a>
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown submenu">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Services
               </a>
@@ -30,7 +30,7 @@
                 <li><a class="dropdown-item" href="{% url 'pdfinfo' %}">PDF Info</a></li>
                 <li><hr class="dropdown-divider text-light"></li>
                 <li>
-                  <a href="#" class="dropdown-item">Convert from PDF  &#x27A4;</a>
+                  <a href="#" class="dropdown-item submenu-dtl">Convert from PDF  &#x27A4;</a>
                   <ul class="dropdown-menu dropdown-submenu dropdown-menu-dark">
                     <li>
                       <a href="" class="dropdown-item">PDF to JPG</a>
@@ -44,7 +44,7 @@
                   </ul>
                 </li>  
                 <li>
-                  <a href="#" class="dropdown-item">Convert to PDF  &#x27A4;</a>
+                  <a href="#" class="dropdown-item submenu-dtl">Convert to PDF  &#x27A4;</a>
                   <ul class="dropdown-menu dropdown-submenu dropdown-menu-dark">
                     <li>
                       <a href="" class="dropdown-item">JPG to PDF</a>

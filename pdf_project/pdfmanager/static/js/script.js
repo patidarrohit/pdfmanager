@@ -87,3 +87,13 @@ $(document).ready(function() {
 
     }); 
 });
+
+
+// Navbar services submenu dropdown functionality
+$(document).ready(function(){
+    $('.submenu a.submenu-dtl').on("click", function(e){
+      $(this).next('ul').toggle();
+      e.stopPropagation();
+      e.preventDefault();
+    });
+  });

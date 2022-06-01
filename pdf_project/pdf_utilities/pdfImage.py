@@ -8,11 +8,11 @@ base_dir = str(settings.BASE_DIR)
 #ts = str(int(round(datetime.now().timestamp())))
 
 
-def pdf_to_image_low(pdf, output, ts):
+def pdf_to_image_low(pdf, output, ts, util_nme):
     pages = convert_from_path(base_dir+pdf, 50)
-    os.system(f"mkdir -p {base_dir}/media/temp/pdf_rotate/{ts}/pdf")
-    os.system(f"mkdir -p {base_dir}/media/temp/pdf_rotate/{ts}/images")
-    dr = f"{base_dir}/media/temp/pdf_rotate/{ts}/images/"
+    os.system(f"mkdir -p {base_dir}/media/temp/{util_nme}/{ts}/pdf")
+    os.system(f"mkdir -p {base_dir}/media/temp/{util_nme}/{ts}/images")
+    dr = f"{base_dir}/media/temp/{util_nme}/{ts}/images/"
     for c, page in enumerate(pages):
         page.save(dr + ts + '_' + str(c) + '.jpg', 'JPEG')
     return [ts, dr]

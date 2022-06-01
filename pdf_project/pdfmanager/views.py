@@ -5,6 +5,7 @@ from django.core.files import File
 from pdf_utilities.pdfMerge import pdf_merge as pm
 from pdf_utilities.pdfImage import pdf_to_image_low
 from pdf_utilities.pdfRotate import pdf_rotate_selected
+from pdf_utilities.pdfExtract import pdfextract
 from django.conf import settings
 from datetime import datetime
 import os
@@ -75,6 +76,10 @@ def pdf_split(request):
     return render(request, "pdfmanager/pdfsplit.html")
 
 
+def pdf_split_show(request):
+    return render(request, "pdfmanager/pdfsplitshow.html")
+
+
 def pdf_rotate(request):
     return render(request, "pdfmanager/pdfrotate.html")
 
@@ -86,7 +91,7 @@ def pdf_rotate_show(request):
         my_file = list(request.FILES.values())[0]
         fs = FileSystemStorage()
         file = fs.save(f'temp/pdf_rotate/{ts}/pdf/'+ op_file_prefix + '.pdf', my_file)         # Arguments-> filename, file object
-        res = pdf_to_image_low(fs.url(file),  f'/media/temp/pdf_rotate/{ts}/pdf' + op_file_prefix + '/', ts)
+        res = pdf_to_image_low(fs.url(file),  f'/media/temp/pdf_rotate/{ts}/pdf' + op_file_prefix + '/', ts, 'pdf_rotate')
 
         ts = res[0]
         img_dir = res[1]
@@ -121,6 +126,46 @@ def pdf_rotate_download(request):
 
 def pdf_extract(request):
     return render(request, "pdfmanager/pdfextract.html")
+
+
+def pdf_extract_show(request):
+    ts = str(int(round(datetime.now().timestamp())))
+    op_file_prefix = 'pdf_extract_img_' + ts
+    if request.method == 'POST':
+        my_file = list(request.FILES.values())[0]
+        fs = FileSystemStorage()
+        file = fs.save(f'temp/pdf_extract/{ts}/pdf/' + op_file_prefix + '.pdf',
+                       my_file)  # Arguments-> filename, file object
+        res = pdf_to_image_low(fs.url(file), f'/media/temp/pdf_extract/{ts}/pdf' + op_file_prefix + '/', ts, 'pdf_extract')
+
+        ts = res[0]
+        img_dir = res[1]
+        img_rel = os.path.relpath(img_dir, '.')
+        img_rel = '/' + img_rel + '/'
+        # Read images and pass it to template for selection.
+        img_list = [img_rel + p for p in os.listdir(img_dir)]
+        print(img_list)
+        img_list.sort()
+        return render(request, "pdfmanager/pdfextractshow.html", {'images': img_list, 'ts': ts})
+
+
+def pdf_extract_download(request):
+    if request.method == 'POST':
+        inp = request.POST
+        print(inp)
+        pages = inp.getlist('check')
+        ts = inp.getlist('timestamp')[0]
+        all_img = [f'./media/temp/pdf_extract/{ts}/images' + i for i in os.listdir(f'./media/temp/pdf_extract/{ts}/images')]
+        inp_file = f'./media/temp/pdf_extract/{ts}/pdf/' + os.listdir(f'./media/temp/pdf_extract/{ts}/pdf')[0]
+        op_file = f'./media/temp/pdf_extract/{ts}/pdf/output.pdf'
+        with open(inp_file, 'rb') as f:
+            pdfextract(f, pages, op_file)
+        print(op_file)
+        path = Path(os.path.abspath(op_file))
+        fs = FileSystemStorage()
+        path = '/' + os.path.relpath(path, './media')
+        fileurl = fs.url(path)
+        return render(request, "pdfmanager/pdfextract_download.html", {'fileurl': fileurl})
 
 
 def pdf_watermark(request):
