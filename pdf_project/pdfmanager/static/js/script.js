@@ -78,7 +78,7 @@ function selectAll(source) {
 
 
 $(document).ready(function() {
-    $('#merge-sub').bind("click",function() 
+    $('#file-sub').bind("click",function() 
     { 
         if( document.getElementById("inputGroupFile").files.length == 0 ){
             alert("No files are selected. Please select atleast one file.");

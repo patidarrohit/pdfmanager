@@ -15,16 +15,55 @@
         <div class="collapse navbar-collapse" id="navmenu">
           <ul class="navbar-nav ms-auto px-5">
             <li class="nav-item">
-              <a href="{% url 'home' %}" {% if '/' == request.path %} class="nav-link px-2 text-white" {% else %} class="nav-link" {% endif %}>Home</a>
+              <a href="{% url 'home' %}" {% if '/' == request.path %} class="nav-link text-white" {% else %} class="nav-link" {% endif %}>Home</a>
             </li>
-            <li class="nav-item">
-              <a href="#Services" class="nav-link">Services</a>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Services
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="{% url 'pdfmerge' %}">PDF Merge</a></li>
+                <li><a class="dropdown-item" href="{% url 'pdfsplit' %}">PDF Split</a></li>
+                <li><a class="dropdown-item" href="{% url 'pdfrotate' %}">PDF Rotate</a></li>
+                <li><a class="dropdown-item" href="{% url 'pdfextract' %}">PDF Extract</a></li>
+                <li><a class="dropdown-item" href="{% url 'pdfwatermark' %}">PDF Watermark</a></li>
+                <li><a class="dropdown-item" href="{% url 'pdfinfo' %}">PDF Info</a></li>
+                <li><hr class="dropdown-divider text-light"></li>
+                <li>
+                  <a href="#" class="dropdown-item">Convert from PDF  &#x27A4;</a>
+                  <ul class="dropdown-menu dropdown-submenu dropdown-menu-dark">
+                    <li>
+                      <a href="" class="dropdown-item">PDF to JPG</a>
+                    </li>
+                    <li>
+                      <a href="" class="dropdown-item">PDF to PNG</a>
+                    </li>
+                    <li>
+                      <a href="" class="dropdown-item">PDF to WORD</a>
+                    </li>
+                  </ul>
+                </li>  
+                <li>
+                  <a href="#" class="dropdown-item">Convert to PDF  &#x27A4;</a>
+                  <ul class="dropdown-menu dropdown-submenu dropdown-menu-dark">
+                    <li>
+                      <a href="" class="dropdown-item">JPG to PDF</a>
+                    </li>
+                    <li>
+                      <a href="" class="dropdown-item">PNG to PDF</a>
+                    </li>
+                    <li>
+                      <a href="" class="dropdown-item">WORD to PDF</a>
+                    </li>
+                  </ul>
+                </li>              
+              </ul>
             </li>
             <li class="nav-item">
               <a href="#FAQs" class="nav-link">FAQs</a>
             </li>
             <li class="nav-item">
-              <a href="{% url 'about' %}" {% if '/about/' == request.path %} class="nav-link px-2 text-white" {% else %} class="nav-link" {% endif %}>About</a>
+              <a href="{% url 'about' %}" {% if '/about/' == request.path %} class="nav-link text-white" {% else %} class="nav-link" {% endif %}>About</a>
             </li>
             <!-- <li class="nav-item">
               <div class="nav-item">

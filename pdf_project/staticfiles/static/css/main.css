@@ -11,6 +11,20 @@ body::before {
   height: 18rem;
 }
 
+@media screen and (max-width: 400px) {
+  .card{
+    width: 18rem;
+    height: 15rem;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .card{
+    width: 17rem;
+    height: 14rem;
+  }
+}
+
 body {
   background-color: rgb(122, 219, 228);
 }
@@ -22,8 +36,33 @@ body {
 
 .input-group{
   width: 50%;
+  }
 
-}
+
+.dropdown-menu li {
+  position: relative;
+  }
+
+.dropdown-menu .dropdown-submenu {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: -7px;
+  }
+
+.dropdown-menu .dropdown-submenu-left {
+  right: 100%;
+  left: auto;
+  }
+
+  .dropdown-menu > li:hover > .dropdown-submenu {
+  display: block;
+  }
+
+
+
+
+
 .bd-placeholder-img {
     font-size: 1.125rem;
     text-anchor: middle;
