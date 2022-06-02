@@ -132,3 +132,4 @@ dmypy.json
 pdf_project/.DS_Store
 pdf_project/media/.DS_Store
 .gitignore
+.DS_Store

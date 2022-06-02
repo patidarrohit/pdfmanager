@@ -2,12 +2,13 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.core.files.storage import FileSystemStorage
 from pathlib import Path
 from django.core.files import File
-
 from pdf_utilities.image2pdf import image_to_pdf
 from pdf_utilities.pdfMerge import pdf_merge as pm
 from pdf_utilities.pdfImage import pdf_to_image_low, pdf_to_image
 from pdf_utilities.pdfRotate import pdf_rotate_selected
 from pdf_utilities.pdfExtract import pdfextract
+from pdf_utilities.pdfSplit import pdf_split_zip
+from pdf_utilities.pdf_word import convert_pdf_to_word
 from django.conf import settings
 from datetime import datetime
 import os
@@ -54,6 +55,10 @@ def about(request):
 #     return render(request, "pdfmanager/pdfmerge.html")
 
 def pdf_merge(request):
+    return render(request, "pdfmanager/pdfmerge.html")
+
+
+def pdf_merge_download(request):
     ts = str(int(round(datetime.now().timestamp())))
     op_file_name = 'pdf_merge_' + ts
     if request.method == 'POST':
@@ -67,11 +72,6 @@ def pdf_merge(request):
         path = '/' + os.path.relpath(path, './media')
         fileurl = fs.url(path)
         return render(request, "pdfmanager/pdfmerge_download.html", {'fileurl': fileurl})
-    return render(request, "pdfmanager/pdfmerge.html")
-
-
-def pdf_merge_download(request):
-    return render(request, "pdfmanager/pdfmerge_download.html")
 
 
 def pdf_split(request):
@@ -79,7 +79,36 @@ def pdf_split(request):
 
 
 def pdf_split_show(request):
-    return render(request, "pdfmanager/pdfsplitshow.html")
+    ts = str(int(round(datetime.now().timestamp())))
+    op_file_prefix = 'pdf_split_img_' + ts
+    if request.method == 'POST':
+        my_file = list(request.FILES.values())[0]
+        fs = FileSystemStorage()
+        file = fs.save(f'temp/pdf_split/{ts}/pdf/' + op_file_prefix + '.pdf', my_file)  # Arguments-> filename, file object
+        res = pdf_to_image_low(fs.url(file),  f'/media/temp/pdf_split/{ts}/pdf' + op_file_prefix + '/', ts, 'pdf_split')
+
+        ts = res[0]
+        img_dir = res[1]
+        img_rel = os.path.relpath(img_dir, '.')
+        img_rel = '/' + img_rel + '/'
+        # Read images and pass it to template for selection.
+        img_list = [img_rel + p for p in os.listdir(img_dir)]
+        img_list.sort()
+        return render(request, "pdfmanager/pdfsplitshow.html", {'images': img_list, 'ts': ts})
+
+
+def pdf_split_download(request):
+    if request.method == 'POST':
+        inp = request.POST
+        images = inp.getlist('check')
+        pages = [int(i.split(".")[0].split("/")[-1].split("_")[-1]) for i in images]
+        pages.sort()
+        ts = inp.getlist('timestamp')[0]
+        inp_file = f'./media/temp/pdf_split/{ts}/pdf/' + os.listdir(f'./media/temp/pdf_split/{ts}/pdf')[0]
+        op_dir = f'media/temp/pdf_split/{ts}/pdf/output'
+        os.system(f"mkdir -p {op_dir}")
+        fileurl = '/' + pdf_split_zip(inp_file, pages, op_dir)
+        return render(request, "pdfmanager/pdfsplit_download.html", {'fileurl': fileurl})
 
 
 def pdf_rotate(request):
@@ -101,7 +130,6 @@ def pdf_rotate_show(request):
         img_rel = '/' + img_rel + '/'
         # Read images and pass it to template for selection.
         img_list = [img_rel + p for p in os.listdir(img_dir)]
-        print(img_list)
         img_list.sort()
         return render(request, "pdfmanager/pdfrotateshow.html", {'images': img_list, 'ts': ts})
 
@@ -109,7 +137,6 @@ def pdf_rotate_show(request):
 def pdf_rotate_download(request):
     if request.method == 'POST':
         inp = request.POST
-        print(inp)
         angle = int(inp.getlist('rotate-angle')[0])
         pages = inp.getlist('check')
         ts = inp.getlist('timestamp')[0]
@@ -118,7 +145,6 @@ def pdf_rotate_download(request):
         op_file = f'./media/temp/pdf_rotate/{ts}/pdf/output.pdf'
         with open(inp_file, 'rb') as f:
             pdf_rotate_selected(f, pages, op_file, angle)
-        print(op_file)
         path = Path(os.path.abspath(op_file))
         fs = FileSystemStorage()
         path = '/' + os.path.relpath(path, './media')
@@ -146,7 +172,6 @@ def pdf_extract_show(request):
         img_rel = '/' + img_rel + '/'
         # Read images and pass it to template for selection.
         img_list = [img_rel + p for p in os.listdir(img_dir)]
-        print(img_list)
         img_list.sort()
         return render(request, "pdfmanager/pdfextractshow.html", {'images': img_list, 'ts': ts})
 
@@ -154,7 +179,6 @@ def pdf_extract_show(request):
 def pdf_extract_download(request):
     if request.method == 'POST':
         inp = request.POST
-        print(inp)
         pages = inp.getlist('check')
         ts = inp.getlist('timestamp')[0]
         all_img = [f'./media/temp/pdf_extract/{ts}/images' + i for i in os.listdir(f'./media/temp/pdf_extract/{ts}/images')]
@@ -162,7 +186,6 @@ def pdf_extract_download(request):
         op_file = f'./media/temp/pdf_extract/{ts}/pdf/output.pdf'
         with open(inp_file, 'rb') as f:
             pdfextract(f, pages, op_file)
-        print(op_file)
         path = Path(os.path.abspath(op_file))
         fs = FileSystemStorage()
         path = '/' + os.path.relpath(path, './media')
@@ -227,7 +250,20 @@ def pdf_to_word(request):
 
 
 def pdf_to_word_download(request):
-    return render(request, "pdfmanager/pdftoword_download.html")
+    ts = str(int(round(datetime.now().timestamp())))
+    op_file_prefix = 'pdf_to_word_' + ts
+    if request.method == 'POST':
+        my_file = list(request.FILES.values())[0]
+        fs = FileSystemStorage()
+        file = fs.save(f'temp/convert_from_pdf/{ts}/pdf/' + op_file_prefix + '.pdf', my_file)
+        res = pdf_to_image_low(fs.url(file), f'/media/temp/pdf_split/{ts}/pdf' + op_file_prefix + '/', ts, 'pdf_split')
+        op_dir = f'media/temp/pdf_split/{ts}/word'
+        os.system(f"mkdir -p {op_dir}")
+        op_file = op_dir + '/' + op_file_prefix + '.docx'
+        convert_pdf_to_word('./' + fs.url(file), op_dir + '/' + op_file_prefix + '.docx')
+        fileurl = '/' + op_file
+        return render(request, "pdfmanager/pdftoword_download.html", {'fileurl': fileurl})
+
 
 
 def convert_to_pdf(request):

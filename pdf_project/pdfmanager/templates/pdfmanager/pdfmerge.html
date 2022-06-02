@@ -14,7 +14,7 @@
               <p class="card-text">
                 Please upload 2 or more PDF files which need to be merged.
               </p>
-            <form name="merge-form" action="{% url 'pdfmerge' %}" method="POST" enctype="multipart/form-data" >
+            <form name="merge-form" action="{% url 'pdfmergedownload' %}" method="POST" enctype="multipart/form-data" >
                 {% csrf_token %}
                 <div class="input-group mx-auto">
                     <input type="file" class="form-control my-2" id="inputGroupFile" name="inputGroup1" accept=".pdf"> 

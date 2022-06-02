@@ -1,2 +1,2 @@
 web: gunicorn pdf_project.wsgi --log-file -
-clock: python clock.py
+clock: python media_cleanup.py

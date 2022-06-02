@@ -10,6 +10,7 @@ urlpatterns = [
 
     path('pdfsplit/', views.pdf_split, name='pdfsplit'),
     path('pdfsplitshow/', views.pdf_split_show, name='pdfsplitshow'),
+    path('pdfsplitdownload/', views.pdf_split_download, name='pdfsplitdownload'),
 
     path('pdfrotate/', views.pdf_rotate, name='pdfrotate'),
     path('pdfrotateshow/', views.pdf_rotate_show, name='pdfrotateshow'),

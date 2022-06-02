@@ -97,3 +97,8 @@ $(document).ready(function(){
       e.preventDefault();
     });
   });
+
+
+$(document).ready(function(){
+    $(".check-split:last").hide()
+});

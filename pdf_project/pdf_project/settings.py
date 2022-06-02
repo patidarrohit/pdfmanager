@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = '(efv!%7p)pvrxj#u6bs^nfxxlr5awtt=#vafkw)3&t5kk55vl7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['pdfwala.herokuapp.com', '127.0.0.1']
 
