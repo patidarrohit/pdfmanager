@@ -14,7 +14,7 @@
             <form id="split-form-id" name="split-form" action="{% url 'pdfsplitdownload' %}" method="POST" enctype="multipart/form-data" onsubmit="return check_checkbox()">
                 {% csrf_token %}
               <p class="card-text">
-                Select pages for which you want to split.
+                Select page location from where you want to split.
               </p>
               <ul name ="checkul" class="list-group mx-auto" style="width: 50%;">
                 <!-- <label class="list-group-item list-group-item-action mx-auto" style="text-align: left; width: 25%; background-color: #212529; color: #fff; border: none;">
