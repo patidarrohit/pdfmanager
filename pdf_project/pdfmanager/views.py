@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.core.files.storage import FileSystemStorage
 from pathlib import Path
 from django.core.files import File
+
+from pdf_utilities.image2pdf import image_to_pdf
 from pdf_utilities.pdfMerge import pdf_merge as pm
-from pdf_utilities.pdfImage import pdf_to_image_low
+from pdf_utilities.pdfImage import pdf_to_image_low, pdf_to_image
 from pdf_utilities.pdfRotate import pdf_rotate_selected
 from pdf_utilities.pdfExtract import pdfextract
 from django.conf import settings
@@ -174,6 +176,104 @@ def pdf_watermark(request):
 
 def pdf_info(request):
     return render(request, "pdfmanager/pdfinfo.html")
+
+
+def convert_from_pdf(request):
+    return render(request, "pdfmanager/convertfrompdf.html")
+
+
+def pdf_to_jpg(request):
+    return render(request, "pdfmanager/pdftojpg.html")
+
+
+def pdf_to_jpg_download(request):
+    ts = str(int(round(datetime.now().timestamp())))
+    op_file_prefix = 'pdf_to_jpg_img_' + ts
+    quality = 'High'
+    print(request.FILES)
+    print(request.POST)
+    if request.method == 'POST':
+        my_file = list(request.FILES.values())[0]
+        fs = FileSystemStorage()
+        file = fs.save(f'temp/convert_from_pdf/{ts}/pdf/' + op_file_prefix + '.pdf', my_file)  # Arguments-> filename, file object
+        img_dir = base_dir + f'/media/temp/convert_from_pdf/{ts}/jpg/'
+        os.system(f"mkdir -p {img_dir}")
+        res = pdf_to_image(fs.url(file), img_dir + op_file_prefix, quality, 'jpg')
+        fileurl = '/' + os.path.relpath(img_dir, '.') + '/' + res.split('/')[-1]
+        return render(request, "pdfmanager/pdftojpg_download.html", {'fileurl': fileurl})
+
+
+def pdf_to_png(request):
+    return render(request, "pdfmanager/pdftopng.html")
+
+
+def pdf_to_png_download(request):
+    ts = str(int(round(datetime.now().timestamp())))
+    op_file_prefix = 'pdf_to_png_img_' + ts
+    quality = 'High'
+    if request.method == 'POST':
+        my_file = list(request.FILES.values())[0]
+        fs = FileSystemStorage()
+        file = fs.save(f'temp/convert_from_pdf/{ts}/pdf/' + op_file_prefix + '.pdf', my_file)  # Arguments-> filename, file object
+        img_dir = base_dir + f'/media/temp/convert_from_pdf/{ts}/png/'
+        os.system(f"mkdir -p {img_dir}")
+        res = pdf_to_image(fs.url(file), img_dir + op_file_prefix, quality, 'png')
+        fileurl = '/' + os.path.relpath(img_dir, '.') + '/' + res.split('/')[-1]
+        return render(request, "pdfmanager/pdftopng_download.html", {'fileurl': fileurl})
+
+
+def pdf_to_word(request):
+    return render(request, "pdfmanager/pdftoword.html")
+
+
+def pdf_to_word_download(request):
+    return render(request, "pdfmanager/pdftoword_download.html")
+
+
+def convert_to_pdf(request):
+    return render(request, "pdfmanager/converttopdf.html")
+
+
+def jpg_to_pdf(request):
+    return render(request, "pdfmanager/jpgtopdf.html")
+
+
+def jpg_to_pdf_download(request):
+    ts = str(int(round(datetime.now().timestamp())))
+    op_file_prefix = 'jpg_to_pdf_' + ts
+    if request.method == 'POST':
+        my_file = list(request.FILES.values())[0]
+        fs = FileSystemStorage()
+        file = fs.save(f'temp/convert_to_pdf/{ts}/jpg/' + op_file_prefix + '.jpg', my_file)  # Arguments-> filename, file object
+        print(file)
+        pdf_dir = base_dir + f'/media/temp/convert_to_pdf/{ts}/pdf/'
+        os.system(f"mkdir -p {pdf_dir}")
+        res = image_to_pdf(fs.url(file), pdf_dir + op_file_prefix + '.pdf')
+        fileurl = '/' + os.path.relpath(pdf_dir, '.') + '/' + res.split('/')[-1]
+        return render(request, "pdfmanager/jpgtopdf_download.html", {'fileurl': fileurl})
+
+
+def png_to_pdf(request):
+    return render(request, "pdfmanager/pngtopdf.html")
+
+
+def png_to_pdf_download(request):
+    ts = str(int(round(datetime.now().timestamp())))
+    op_file_prefix = 'png_to_pdf_' + ts
+    if request.method == 'POST':
+        my_file = list(request.FILES.values())[0]
+        fs = FileSystemStorage()
+        file = fs.save(f'temp/convert_to_pdf/{ts}/png/' + op_file_prefix + '.png', my_file)  # Arguments-> filename, file object
+        print(file)
+        pdf_dir = base_dir + f'/media/temp/convert_to_pdf/{ts}/pdf/'
+        os.system(f"mkdir -p {pdf_dir}")
+        res = image_to_pdf(fs.url(file), pdf_dir + op_file_prefix + '.pdf')
+        fileurl = '/' + os.path.relpath(pdf_dir, '.') + '/' + res.split('/')[-1]
+        return render(request, "pdfmanager/pngtopdf_download.html", {'fileurl': fileurl})
+
+
+def word_to_pdf(request):
+    return render(request, "pdfmanager/wordtopdf.html")
 
 
 # def pdf_view(request):

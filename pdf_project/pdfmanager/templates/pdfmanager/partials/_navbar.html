@@ -30,30 +30,30 @@
                 <li><a class="dropdown-item" href="{% url 'pdfinfo' %}">PDF Info</a></li>
                 <li><hr class="dropdown-divider text-light"></li>
                 <li>
-                  <a href="#" class="dropdown-item submenu-dtl">Convert from PDF  &#x27A4;</a>
+                  <a href="{% url 'convertfrompdf' %}" class="dropdown-item submenu-dtl">Convert from PDF  &#x27A4;</a>
                   <ul class="dropdown-menu dropdown-submenu dropdown-menu-dark">
                     <li>
-                      <a href="" class="dropdown-item">PDF to JPG</a>
+                      <a href="{% url 'pdftojpg' %}" class="dropdown-item">PDF to JPG</a>
                     </li>
                     <li>
-                      <a href="" class="dropdown-item">PDF to PNG</a>
+                      <a href="{% url 'pdftopng' %}" class="dropdown-item">PDF to PNG</a>
                     </li>
                     <li>
-                      <a href="" class="dropdown-item">PDF to WORD</a>
+                      <a href="{% url 'pdftoword' %}" class="dropdown-item">PDF to WORD</a>
                     </li>
                   </ul>
                 </li>  
                 <li>
-                  <a href="#" class="dropdown-item submenu-dtl">Convert to PDF  &#x27A4;</a>
+                  <a href="{% url 'converttopdf' %}" class="dropdown-item submenu-dtl">Convert to PDF  &#x27A4;</a>
                   <ul class="dropdown-menu dropdown-submenu dropdown-menu-dark">
                     <li>
-                      <a href="" class="dropdown-item">JPG to PDF</a>
+                      <a href="{% url 'jpgtopdf' %}" class="dropdown-item">JPG to PDF</a>
                     </li>
                     <li>
-                      <a href="" class="dropdown-item">PNG to PDF</a>
+                      <a href="{% url 'pngtopdf' %}" class="dropdown-item">PNG to PDF</a>
                     </li>
                     <li>
-                      <a href="" class="dropdown-item">WORD to PDF</a>
+                      <a href="{% url 'wordtopdf' %}" class="dropdown-item">WORD to PDF</a>
                     </li>
                   </ul>
                 </li>              

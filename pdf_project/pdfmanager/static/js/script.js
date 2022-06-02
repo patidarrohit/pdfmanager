@@ -18,7 +18,7 @@ function createNewInputGrp() {
 
     //jQuery function to send alert on size if file is more than 10 MB.
     $("input[type='file']").on("change", function () {
-      if (this.files[0].size > 1048576) {
+      if (this.files[0].size > 10485760) {
         alert("Please upload file less than 10MB. Thanks!!");
         $(this).val(null);
       }
@@ -38,7 +38,7 @@ function removeInputGrp() {
 
 // jQuery function to send alert on size if file is more than 10 MB.
 $("input[type='file']").on("change", function () {
-    if(this.files[0].size > 1048576) {
+    if(this.files[0].size > 10485760) {
       alert("Please upload file less than 10MB. Thanks!!");
       $(this).val(null);
     }

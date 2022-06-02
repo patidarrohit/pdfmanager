@@ -5,7 +5,7 @@ import os
 scheduler = BackgroundScheduler()
 BASE_DIR = Path(__file__).resolve(strict=True).parent
 work_dir = os.path.join(BASE_DIR, 'media/temp')
-src_dir_list = ['pdf_merge', 'pdf_rotate', 'pdf_split', 'pdf_extract', 'pdf_watermark', 'pdf_info']
+src_dir_list = ['pdf_merge', 'pdf_rotate', 'pdf_split', 'pdf_extract', 'pdf_watermark', 'pdf_info', 'convert_to_pdf', 'convert_from_pdf']
 
 @scheduler.scheduled_job('interval', minutes=10)
 def clean_old_files():

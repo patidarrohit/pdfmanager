@@ -21,4 +21,20 @@ urlpatterns = [
 
     path('pdfwatermark/', views.pdf_watermark, name='pdfwatermark'),
     path('pdfinfo/', views.pdf_info, name='pdfinfo'),
+
+    path('convertfrompdf/', views.convert_from_pdf, name='convertfrompdf'),
+    path('pdftojpg/', views.pdf_to_jpg, name='pdftojpg'),
+    path('pdftojpgdownload/', views.pdf_to_jpg_download, name='pdftojpgdownload'),
+    path('pdftopng/', views.pdf_to_png, name='pdftopng'),
+    path('pdftopngdownload/', views.pdf_to_png_download, name='pdftopngdownload'),
+    path('pdftoword/', views.pdf_to_word, name='pdftoword'),
+    path('pdftoworddownload/', views.pdf_to_word_download, name='pdftoworddownload'),
+
+    path('converttopdf/', views.convert_to_pdf, name='converttopdf'),
+    path('jpgtopdf/', views.jpg_to_pdf, name='jpgtopdf'),
+    path('jpgtopdfdownload/', views.jpg_to_pdf_download, name='jpgtopdfdownload'),
+    path('pngtopdf/', views.png_to_pdf, name='pngtopdf'),
+    path('pngtopdfdownload/', views.png_to_pdf_download, name='pngtopdfdownload'),
+    path('wordtopdf/', views.word_to_pdf, name='wordtopdf'),
+
 ]
