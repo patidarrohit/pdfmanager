@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../../../../../../../../PycharmProjects/ecomm-django"
+		},
+		{
+			"path": "../../.."
+		},
+		{
+			"path": "../../../../../youtube-to-audio"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "pdf_project"
+	}
+}
