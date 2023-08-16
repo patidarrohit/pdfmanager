@@ -8,7 +8,8 @@ from pdf_utilities.pdfImage import pdf_to_image_low, pdf_to_image
 from pdf_utilities.pdfRotate import pdf_rotate_selected
 from pdf_utilities.pdfExtract import pdfextract
 from pdf_utilities.pdfSplit import pdf_split_zip
-from pdf_utilities.pdf_word import convert_pdf_to_word
+from pdf_utilities.pdf_word import convert_pdf_to_word #, convert_word_to_pdf
+from pdf_utilities.pdfProtection import pdf_add_password, pdf_remove_password
 from django.conf import settings
 from datetime import datetime
 import os
@@ -193,6 +194,46 @@ def pdf_extract_download(request):
         return render(request, "pdfmanager/pdfextract_download.html", {'fileurl': fileurl})
 
 
+def pdf_encrypt(request):
+    ts = str(int(round(datetime.now().timestamp())))
+
+    if request.method == 'POST':
+        file_name = request.FILES['inputFile'].name
+        inp = request.POST
+        passwd = inp['inputGroupPasswd']
+        my_file = list(request.FILES.values())[0]
+        op_dir = f'./media/temp/pdf_encrypt/{ts}/'
+        os.system(f'mkdir -p {op_dir}')
+        output_pdf = file_name.split(".")[0] + '_encrypted.pdf'
+        file_path = op_dir + output_pdf
+        if pdf_add_password(my_file, passwd, file_path):
+            path = Path(file_path)
+            fs = FileSystemStorage()
+            path = '/' + os.path.relpath(path, './media')
+            fileurl = fs.url(path)
+            return render(request, "pdfmanager/pdfencrypt_download.html", {'fileurl': fileurl})
+    return render(request, "pdfmanager/pdfencrypt.html")
+
+
+def pdf_decrypt(request):
+    ts = str(int(round(datetime.now().timestamp())))
+    if request.method == 'POST':
+        file_name = request.FILES['inputFile'].name
+        inp = request.POST
+        passwd = inp['inputGroupPasswd']
+        my_file = list(request.FILES.values())[0]
+        op_dir = f'./media/temp/pdf_decrypt/{ts}/'
+        os.system(f'mkdir -p {op_dir}')
+        output_pdf = file_name.split(".")[0] + '_decrypted.pdf'
+        file_path = op_dir + output_pdf
+        if pdf_remove_password(my_file, passwd, file_path):
+            path = Path(file_path)
+            fs = FileSystemStorage()
+            path = '/' + os.path.relpath(path, './media')
+            fileurl = fs.url(path)
+            return render(request, "pdfmanager/pdfdecrypt_download.html", {'fileurl': fileurl})
+    return render(request, "pdfmanager/pdfdecrypt.html")
+
 def pdf_watermark(request):
     return render(request, "pdfmanager/pdfwatermark.html")
 
@@ -256,14 +297,13 @@ def pdf_to_word_download(request):
         my_file = list(request.FILES.values())[0]
         fs = FileSystemStorage()
         file = fs.save(f'temp/convert_from_pdf/{ts}/pdf/' + op_file_prefix + '.pdf', my_file)
-        res = pdf_to_image_low(fs.url(file), f'/media/temp/pdf_split/{ts}/pdf' + op_file_prefix + '/', ts, 'pdf_split')
-        op_dir = f'media/temp/pdf_split/{ts}/word'
+        #res = pdf_to_image_low(fs.url(file), f'/media/temp/pdf_split/{ts}/pdf' + op_file_prefix + '/', ts, 'pdf_split')
+        op_dir = f'media/temp/convert_from_pdf/{ts}/word'
         os.system(f"mkdir -p {op_dir}")
         op_file = op_dir + '/' + op_file_prefix + '.docx'
         convert_pdf_to_word('./' + fs.url(file), op_dir + '/' + op_file_prefix + '.docx')
         fileurl = '/' + op_file
         return render(request, "pdfmanager/pdftoword_download.html", {'fileurl': fileurl})
-
 
 
 def convert_to_pdf(request):
@@ -311,6 +351,21 @@ def png_to_pdf_download(request):
 def word_to_pdf(request):
     return render(request, "pdfmanager/wordtopdf.html")
 
+
+def word_to_pdf_download(request):
+    ts = str(int(round(datetime.now().timestamp())))
+    op_file_prefix = 'word_to_pdf_' + ts
+    if request.method == 'POST':
+        my_file = list(request.FILES.values())[0]
+        print(my_file.name.split(".")[1])
+        fs = FileSystemStorage()
+        file = fs.save(f'temp/convert_to_pdf/{ts}/doc/' + op_file_prefix + '.' + my_file.name.split(".")[1], my_file)
+        op_dir = f'media/temp/convert_to_pdf/{ts}/word'
+        os.system(f"mkdir -p {op_dir}")
+        op_file = op_dir + '/' + op_file_prefix + '.pdf'
+        #convert_word_to_pdf('./' + fs.url(file), op_file)
+        fileurl = '/' + op_file
+        return render(request, "pdfmanager/wordtopdf_download.html", {'fileurl': fileurl})
 
 # def pdf_view(request):
 #     try:

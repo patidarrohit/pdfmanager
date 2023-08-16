@@ -35,3 +35,4 @@ tzdata==2022.1
 tzlocal==4.2
 whitenoise==6.1.0
 wrapt==1.14.1
+docx2pdf~=0.1.8
